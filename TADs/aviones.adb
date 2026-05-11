@@ -34,7 +34,7 @@ package body aviones is
       if Enc then
          raise Avion_Duplicado;
       end if;
-      InsertarPorFinal(L, Reg);
+      Insertar(L, Reg);
    end Alta;
 
 
@@ -64,7 +64,7 @@ package body aviones is
       end if;
       Viejo := Info(Ptr);
       Suprimir(L, Viejo);
-      InsertarPorFinal(L, NuevoReg);
+      Insertar(L, NuevoReg);
    end Modificar;
 
  -- ==== BUSCAR ====
@@ -80,17 +80,21 @@ package body aviones is
    end Buscar;
 
 
-function BuscarPorTipo(L: in TAvion; Tipo: in String) return tavion is
-   Ptr : TAvion := L;
+   function Buscarportipo(L: in Tavion; Tipo: in String)  return tavion is
+  
+   Ptr : Tavion := L;
+   Resul:Tavion;
+   
 begin
    while not Vacia(Ptr) loop
       if Info(Ptr).Tipo(1..Info(Ptr).LongTipo) = Tipo then
-         return Info(Ptr);
+         insertarporfinal(resul,info(ptr));
       end if;
       Ptr := Sig(Ptr);
    end loop;
-   raise Avion_No_Encontrado;
-end BuscarPorTipo;
+   return Resul;
+    
+  end BuscarPorTipo;
 
    -- ==== LISTAR ====
    -- Campo(1..LongCampo) imprime solo los caracteres reales, sin espacios de más (osea no imprime basura)
@@ -141,7 +145,7 @@ end BuscarPorTipo;
       archiaviones.Open(Arch, archiaviones.In_File, Archivo);
       while not archiaviones.End_Of_File(Arch) loop
          archiaviones.Read(Arch, Elem);
-         InsertarPorFinal(L, Elem);
+         Insertar(L, Elem);
       end loop;
       archiaviones.Close(Arch);
    exception
